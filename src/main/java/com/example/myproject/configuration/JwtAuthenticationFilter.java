@@ -1,4 +1,4 @@
-package com.example.myproject.cofigurations;
+package com.example.myproject.configuration;
 
 
 import com.example.myproject.repositories.TokenRepository;
