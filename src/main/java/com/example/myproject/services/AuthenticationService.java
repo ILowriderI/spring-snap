@@ -9,12 +9,10 @@ import com.example.myproject.models.*;
 import com.example.myproject.repositories.TokenRepository;
 import com.example.myproject.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 
 
 @Service
@@ -25,9 +23,6 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-
-
-
 
 
     public AuthenticationResponseDTO register(RegisterRequestDTO request) {
@@ -88,14 +83,12 @@ public class AuthenticationService {
         tokenRepository.saveAll(validUserTokens);
     }
 
-    public ResponseEntity<Boolean> isUserPresent(String email){
+    public Boolean isUserPresent(String email) {
         User user = repository.findByEmail(email);
-        if(user != null) {
-            return ResponseEntity.ok(true);
+        if (user != null) {
+            return true;
         }
-        return ResponseEntity.ok(false);
+        return false;
+
     }
 }
-
-
-

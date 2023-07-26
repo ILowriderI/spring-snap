@@ -49,12 +49,12 @@ public class CartService {
 
     }
 
-    public ResponseEntity<?> getCartListByUser(Long userId) {
+    public List<ProductDTO> getCartListByUser(Long userId) {
         User user = userRepository.findById(userId).orElseThrow();
         Cart cart = cartRepository.findCartByUser(user);
-        if(cart==null){
+        if (cart == null) {
             List<ProductDTO> empty = new ArrayList<>();
-            return  ResponseEntity.ok(empty);
+            return empty;
         }
         List<Product> products = cart.getSavedProducts();
         List<ProductDTO> productDTOList = new ArrayList<>();
@@ -62,7 +62,7 @@ public class CartService {
             ProductDTO productDTO = new ProductDTO();
             productDTOList.add(productDTO.formEntity(item));
         });
-        return ResponseEntity.ok(productDTOList);
+        return productDTOList;
     }
 
     public void removeFromSaved(Long userId, Long productId) {

@@ -9,59 +9,52 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-
 @RestController
+@RequestMapping("/product")
 @RequiredArgsConstructor
 public class ProductController {
+
     private final ProductService productService;
 
-
-
-    @PostMapping("/product/create/{id}")
-    public Long addProduct(@RequestBody Product product ,@PathVariable Long id) {
-        productService.saveProduct(product,id);
+    @PostMapping("/create/{id}")
+    public Long addProduct(@RequestBody Product product, @PathVariable Long id) {
+        productService.saveProduct(product, id);
         return product.getId();
     }
 
 
-
-    @PostMapping("/product/add-image/{id}")
-    public void addImg(@PathVariable Long id, @RequestBody Image image) {
+    @PostMapping("/add-image/{id}")
+    public void addImageToProduct(@PathVariable Long id, @RequestBody Image image) {
 
         productService.addImagesToProduct(image, id);
 
     }
 
 
-@GetMapping("/products")
-public ResponseEntity<?> products(
-        @RequestParam(defaultValue = "0")  Integer pageNumber,
-        @RequestParam(defaultValue = "5")  Integer size
-) {
-    return productService.getAllProducts(pageNumber,size);
+    @GetMapping("/all")
+    public ResponseEntity<?> products(
+            @RequestParam(defaultValue = "0") Integer pageNumber,
+            @RequestParam(defaultValue = "5") Integer size
+    ) {
+        return ResponseEntity.ok(productService.getAllProducts(pageNumber, size));
 
-}
+    }
 
-@GetMapping("/products/search/{title}")
-public  ResponseEntity<?> searchProductsByTitle(@PathVariable String title){
-     return productService.searchProductByTitle( title);
-}
+    @GetMapping("/search/{title}")
+    public ResponseEntity<?> searchProductsByTitle(@PathVariable String title) {
+        return ResponseEntity.ok(productService.searchProductByTitle(title));
+    }
 
-    @GetMapping("/product/id/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<ProductDTO> productById(@PathVariable Long id) {
-        return productService.getProductById(id);
+
+        return ResponseEntity.ok(productService.getProductById(id));
     }
 
 
-
-    @GetMapping("/product/delete/{id}")
+    @GetMapping("/delete/{id}")
     public void deleteProductById(@PathVariable Long id) {
         productService.deleteProduct(id);
     }
 
-
-
-
 }
-
-

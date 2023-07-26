@@ -29,13 +29,11 @@ public class Message {
     @JoinColumn
     private Chat chat;
 
-
     private LocalDateTime dateOfCreated;
+
     @PrePersist
-    private void init(){
+    private void init() {
         dateOfCreated = LocalDateTime.now();
     }
-
-
 
 }

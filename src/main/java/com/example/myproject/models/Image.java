@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="images")
+@Table(name = "images")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,6 +18,6 @@ public class Image {
     private String url;
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.REFRESH , fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     private Product product;
 }

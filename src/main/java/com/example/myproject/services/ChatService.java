@@ -6,7 +6,6 @@ import com.example.myproject.models.Message;
 import com.example.myproject.repositories.ChatRepository;
 import com.example.myproject.repositories.MessageRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,10 +45,10 @@ public class ChatService {
             messageRepository.save(message);
         } else {
             Chat chat;
-            if(chatRepository.findChatBySenderIdAndRecipientId(senderId, recipientId) == null){
-                chat =chatRepository.findChatBySenderIdAndRecipientId(recipientId, senderId);
-            }else{
-                chat= chatRepository.findChatBySenderIdAndRecipientId(senderId, recipientId);
+            if (chatRepository.findChatBySenderIdAndRecipientId(senderId, recipientId) == null) {
+                chat = chatRepository.findChatBySenderIdAndRecipientId(recipientId, senderId);
+            } else {
+                chat = chatRepository.findChatBySenderIdAndRecipientId(senderId, recipientId);
             }
 
             chat.getMessageList().add(message);
@@ -63,36 +62,31 @@ public class ChatService {
     }
 
 
-    public ResponseEntity<?> getChatsByUser(Integer id) {
+    public List<Chat> getChatsByUser(Integer id) {
         Integer id1 = id;
-        return ResponseEntity.ok(chatRepository.findChatsByRecipientIdOrSenderIdOrderById(id, id1)) ;
+        return chatRepository.findChatsByRecipientIdOrSenderIdOrderById(id, id1);
     }
 
-    public ResponseEntity<Message> findLastMessageInChat(Integer id) {
+    public Message findLastMessageInChat(Integer id) {
         Chat chat = chatRepository.findById(Long.valueOf(id)).orElseThrow();
         List<Message> messageList = messageRepository.findMessageByChat(chat);
-        return  ResponseEntity.ok(messageList.get(messageList.size() - 1)) ;
+        return messageList.get(messageList.size() - 1);
 
     }
 
-    public ResponseEntity<?> getAllMessageByChat(Integer id,Integer senderId) {
+    public List<Message> getAllMessageByChat(Integer id, Integer senderId) {
         Chat chat = chatRepository.findById(Long.valueOf(id)).orElseThrow();
         List<Message> messageList = messageRepository.findMessageByChat(chat);
         messageList.forEach(item -> {
-           Message lastMessage = findLastMessageInChat(id).getBody();
-           if(! Objects.equals(lastMessage.getSender(), senderId)){
-               item.setIsRead(true);
-           }
+            Message lastMessage = findLastMessageInChat(id);
+            if (!Objects.equals(lastMessage.getSender(), senderId)) {
+                item.setIsRead(true);
+            }
 
             messageRepository.save(item);
         });
 
-        return ResponseEntity.ok(messageList) ;
+        return messageList;
     }
-
-
-
-
-
 
 }

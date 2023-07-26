@@ -18,11 +18,9 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-
-
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
-    private final LogoutHandler logoutHandler ;
+    private final LogoutHandler logoutHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -32,7 +30,7 @@ public class SecurityConfig {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/auth/**","/products","product/id/**","/products/search/**")
+                .requestMatchers("/auth/**", "/product/all", "product/id/**", "/product/search/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -49,6 +47,5 @@ public class SecurityConfig {
 
         return http.build();
     }
-
 
 }

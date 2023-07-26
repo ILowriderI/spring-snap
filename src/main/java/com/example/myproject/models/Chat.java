@@ -27,10 +27,10 @@ public class Chat {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY , mappedBy = "chat")
-    private List <Message> messageList = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "chat")
+    private List<Message> messageList = new ArrayList<>();
 
-    public void addMessageToChat(Message message){
+    public void addMessageToChat(Message message) {
         message.setChat(this);
         messageList.add(message);
     }

@@ -13,12 +13,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
 import java.util.*;
-
 
 
 @Service
@@ -32,27 +30,26 @@ public class ProductService {
     private final CartService cartService;
 
 
+    public Map<String, Object> getAllProducts(Integer pageNumber, Integer size) {
+        Page<Product> products = productRepository.findAll(PageRequest.of(pageNumber, size));
 
-    public ResponseEntity<?> getAllProducts(Integer pageNumber, Integer size) {
-        Page <Product> products = productRepository.findAll(PageRequest.of(pageNumber, size));
-
-        Page <ProductDTO> productsDTO = products.map(item->{
-           ProductDTO productDTO= new ProductDTO();
+        Page<ProductDTO> productsDTO = products.map(item -> {
+            ProductDTO productDTO = new ProductDTO();
             return productDTO.formEntity(item);
         });
-        return ResponseEntity.ok(convertToResponse(productsDTO));
+        return convertToResponse(productsDTO);
 
     }
 
-    public ResponseEntity<?> searchProductByTitle( String title){
+    public List<ProductDTO> searchProductByTitle(String title) {
         List<Product> products = productRepository.findProductsByTitleContainsIgnoreCase(title);
         List<ProductDTO> productDTOList = new ArrayList<>();
-        products.forEach(item->{
-           ProductDTO  productDTO = new ProductDTO();
+        products.forEach(item -> {
+            ProductDTO productDTO = new ProductDTO();
             productDTOList.add(productDTO.formEntity(item));
         });
 
-        return ResponseEntity.ok(productDTOList);
+        return productDTOList;
 
     }
 
@@ -67,18 +64,16 @@ public class ProductService {
     }
 
 
-
-
-    public  ResponseEntity<ProductDTO> getProductById(Long id) {
+    public ProductDTO getProductById(Long id) {
 
         Product product = productRepository.findById(id).orElseThrow();
         ProductDTO productDTO = new ProductDTO();
-        return  ResponseEntity.ok( productDTO.formEntity(product));
+        return productDTO.formEntity(product);
 
     }
 
 
-    public void saveProduct(Product product,Long id) {
+    public void saveProduct(Product product, Long id) {
 
         User user = userRepository.findById(id).orElseThrow();
         user.addProductToUser(product);
@@ -86,7 +81,7 @@ public class ProductService {
     }
 
 
-        public void addImagesToProduct(Image image, Long id) {
+    public void addImagesToProduct(Image image, Long id) {
 
         Product product = productRepository.findById(id).orElseThrow();
         product.addImageToProduct(image);
@@ -96,28 +91,10 @@ public class ProductService {
     }
 
 
-
     public void deleteProduct(Long id) {
         Integer userId = productRepository.findById(id).orElseThrow().getUser().getId();
-        cartService.removeFromSaved(Long.valueOf(userId),id);
+        cartService.removeFromSaved(Long.valueOf(userId), id);
         productRepository.deleteById(id);
     }
 
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-

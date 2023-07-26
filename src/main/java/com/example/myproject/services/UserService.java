@@ -6,8 +6,6 @@ import com.example.myproject.models.User;
 import com.example.myproject.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
@@ -18,11 +16,11 @@ public class UserService {
     private final UserRepository userRepository;
 
 
-    public ResponseEntity<UserDTO> getUser(Integer id) {
+    public UserDTO getUser(Integer id) {
         User user = userRepository.findById(Long.valueOf(id)).orElseThrow();
         UserDTO userDTO = new UserDTO();
         userDTO = userDTO.formEntity(user);
-        return ResponseEntity.ok(userDTO);
+        return userDTO;
     }
 
 

@@ -22,5 +22,4 @@ public class Cart {
     private List<Product> savedProducts;
 
 
-
 }

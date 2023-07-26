@@ -6,14 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Entity
-
 @Table(name = "products")
 @Data
 @AllArgsConstructor
@@ -23,7 +21,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
-    @Column( columnDefinition = "text")
+    @Column(columnDefinition = "text")
     private String description;
     private int price;
     private String city;
@@ -42,7 +40,6 @@ public class Product {
     private void init() {
         dateOfCreated = LocalDateTime.now();
     }
-
 
 
     public void addImageToProduct(Image image) {

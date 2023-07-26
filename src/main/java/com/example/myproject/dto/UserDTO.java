@@ -1,8 +1,6 @@
 package com.example.myproject.dto;
 
 
-
-
 import com.example.myproject.models.Product;
 import com.example.myproject.models.User;
 import lombok.AllArgsConstructor;
@@ -17,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO {
+
     private Long id;
     private String email;
     private String phoneNumber;
@@ -25,7 +24,7 @@ public class UserDTO {
     private LocalDateTime dateOfCreated;
 
 
-    public  UserDTO formEntity(User user){
+    public UserDTO formEntity(User user) {
         UserDTO userDTO = new UserDTO();
         userDTO.setName(user.getName());
         userDTO.setEmail(user.getEmail());
@@ -35,7 +34,6 @@ public class UserDTO {
         userDTO.setProductList(user.getProductList());
         return userDTO;
     }
-
 
 
 }
